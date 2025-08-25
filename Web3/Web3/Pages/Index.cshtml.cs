@@ -1,20 +1,56 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Text.Json;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
-namespace Web3.Pages
+using WARazor.Models;
+
+namespace WARazor.Pages;
+
+public class IndexModel : PageModel
 {
-    public class IndexModel : PageModel
+    public List<Tarea>
+    Tareas
+    { get; set; }
+    public int PaginaActual { get; set; }
+    public int TotalPaginas { get; set; }
+    public int TamanoPagina { get; set; } = 8;
+    private readonly ILogger<IndexModel>
+        _logger;
+
+    [BindProperty(SupportsGet = true)]
+    public string Filtro { get; set; } = "Todos"; // <-- nuevo: filtro recibido desde la URL
+    public IndexModel(ILogger<IndexModel> logger)
     {
-        private readonly ILogger<IndexModel> _logger;
+        _logger = logger;
+    }
 
-        public IndexModel(ILogger<IndexModel> logger)
+    public void OnGet(int pagina = 1)
+    {
+        // Ruta al archivo JSON (asegúrate de que exista en tu proyecto)
+        string jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "tareas.json");
+
+        // Leer el JSON y deserializarlo
+        var jsonContent = System.IO.File.ReadAllText(jsonFilePath);
+        var todasLasTareas = JsonSerializer.Deserialize<List<Tarea>>(jsonContent) ?? new List<Tarea>();
+
+        // Aplicar filtro dinámico
+        IEnumerable<Tarea> tareasFiltradas = todasLasTareas;
+
+        if (Filtro == "Pendiente")
         {
-            _logger = logger;
+            tareasFiltradas = tareasFiltradas.Where(t => t.estado == "Pendiente");
+        }
+        else if (Filtro == "En curso")
+        {
+            tareasFiltradas = tareasFiltradas.Where(t => t.estado == "En curso");
         }
 
-        public void OnGet()
-        {
-
-        }
+        // Lógica de paginación
+        PaginaActual = pagina < 1 ? 1 : pagina;
+        TotalPaginas = (int)Math.Ceiling(tareasFiltradas.Count() / (double)TamanoPagina);
+        Tareas = tareasFiltradas.Skip((PaginaActual - 1) * TamanoPagina).Take(TamanoPagina).ToList();
     }
 }

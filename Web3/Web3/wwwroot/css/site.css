@@ -1,22 +1,171 @@
+/* === BASE GENERAL === */
 html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
+    overflow-y: auto;
 }
 
 body {
-  margin-bottom: 60px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-color: #f9fafb; /* Fondo gris claro */
+    color: #111827; /* Texto principal */
+}
+
+/* === WRAPPER === */
+.wrapper {
+    position: relative;
+    min-height: 100vh;
+}
+
+/* === HEADER === */
+.main-header {
+    background-color: #1e3a8a; /* Azul oscuro */
+    color: #fff;
+    padding: 15px;
+    height: 60px;
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+    .main-header .logo {
+        color: #fff;
+        text-decoration: none;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .main-header .navbar-custom {
+        float: right;
+    }
+
+    .main-header .sidebar-toggle {
+        color: #fff;
+        font-size: 20px;
+        text-decoration: none;
+    }
+
+/* === SIDEBAR === */
+.main-sidebar {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 230px;
+    height: 100%;
+    background-color: #111827; /* Sidebar gris azulado oscuro */
+    transition: left 0.3s ease;
+    z-index: 90;
+    box-shadow: 2px 0 6px rgba(0,0,0,0.15);
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+    .sidebar-menu li a {
+        display: block;
+        color: #d1d5db;
+        padding: 12px 15px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background 0.3s, color 0.3s;
+    }
+
+        .sidebar-menu li a:hover {
+            background-color: #3b82f6;
+            color: #fff;
+        }
+
+    .sidebar-menu .header {
+        color: #9ca3af;
+        padding: 10px 15px;
+        font-size: 12px;
+        text-transform: uppercase;
+    }
+
+/* === CONTENT === */
+.content-wrapper {
+    min-height: calc(100vh - 120px);
+    background-color: #f9fafb;
+    margin-left: 230px;
+    padding: 20px;
+    padding-top: 80px;
+    transition: margin-left 0.3s ease;
+}
+
+/* === FOOTER === */
+.main-footer {
+    background-color: #fff;
+    padding: 15px;
+    color: #6b7280;
+    text-align: center;
+    border-top: 1px solid #e5e7eb;
+    clear: both;
+    font-size: 14px;
+}
+
+/* === GRID/TABLA DE TAREAS === */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.grid-item {
+    padding: 15px;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: center;
+    background-color: #fff;
+    font-size: 15px;
+}
+
+    /* Filas alternadas */
+    .grid-item:nth-child(8n+1),
+    .grid-item:nth-child(8n+2),
+    .grid-item:nth-child(8n+3),
+    .grid-item:nth-child(8n+4) {
+        background-color: #f3f4f6;
+    }
+
+    /* Hover en filas */
+    .grid-item:hover {
+        background-color: #e0f2fe;
+        transition: background 0.2s;
+    }
+
+/* === PAGINACIÓN === */
+.pagination .page-item .page-link {
+    color: #1e3a8a;
+    border: 1px solid #d1d5db;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+    color: #fff;
+}
+
+/* === ICONOS === */
+.fa {
+    font-style: normal;
+}
+
+.fa-home:before {
+    content: "??";
+}
+
+.fa-user:before {
+    content: "??";
+}
+
+.fa-lock:before {
+    content: "??";
 }
